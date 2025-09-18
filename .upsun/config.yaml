@@ -37,6 +37,10 @@ applications:
         start: serve -s dist -l $PORT
     variables:
       NODE_ENV: production
+    hooks:
+      build: |
+        npm install
+        npm run build
     mounts:
       static: /app/frontend/dist
 
@@ -50,8 +54,13 @@ services:
         - pg_trgm
         - unaccent
 
-variables:
-  env:
-    BRIGHTDATA_BASE_URL: https://trackfutura.futureobjects.io
-    BRIGHTDATA_WEBHOOK_TOKEN: your-webhook-secret-token
-    OPENAI_API_KEY: your-openai-api-key
+routes:
+  "https://{default}/":
+    type: upstream
+    upstream: "frontend:http"
+  "https://{default}/api/":
+    type: upstream
+    upstream: "backend:http"
+  "https://{default}/admin/":
+    type: upstream
+    upstream: "backend:http"
