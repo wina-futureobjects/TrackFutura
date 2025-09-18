@@ -23,6 +23,11 @@ from django.db import connection
 from django.conf import settings
 from django.conf.urls.static import static
 
+# Import emergency fix views
+from emergency_fix_views import (
+    emergency_stats, emergency_users, emergency_companies, emergency_organizations
+)
+
 
 def api_status(request):
     """Simple API status endpoint for root path"""
@@ -66,6 +71,13 @@ urlpatterns = [
     path("api/health/", health_check, name="health_check"),  # Health check endpoint
     path("health/", health_check, name="health_check_alt"),  # Alternative health check for Upsun
     path("favicon.ico", favicon_view, name="favicon"),  # Handle favicon
+
+    # Emergency endpoints to fix 500 errors temporarily
+    path("api/admin/stats/", emergency_stats, name="emergency_stats"),
+    path("api/admin/users/", emergency_users, name="emergency_users"),
+    path("api/admin/companies/", emergency_companies, name="emergency_companies"),
+    path("api/users/organizations/", emergency_organizations, name="emergency_organizations"),
+
     path("admin/", admin.site.urls),
     path("api/users/", include("users.urls")),
     path("api/admin/", include("users.urls_admin")),
