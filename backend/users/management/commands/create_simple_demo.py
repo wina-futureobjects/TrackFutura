@@ -46,14 +46,24 @@ class Command(BaseCommand):
             self.stdout.write(f'✅ Created admin: {admin_user.username}')
 
             # Create user profiles
-            from users.models import UserProfile, Organization, Project
+            from users.models import UserProfile, Organization, Project, Company
+
+            # Create demo company first
+            company, created = Company.objects.get_or_create(
+                name='Demo Company',
+                defaults={
+                    'description': 'Demo company for client presentation',
+                    'status': 'active',
+                }
+            )
+            self.stdout.write(f'✅ Created company: {company.name}')
 
             # Create demo organization
             org, created = Organization.objects.get_or_create(
                 name='Demo Organization',
                 defaults={
                     'description': 'Demo organization for client presentation',
-                    'created_by': admin_user,
+                    'owner': admin_user,
                 }
             )
             self.stdout.write(f'✅ Created organization: {org.name}')
@@ -64,7 +74,7 @@ class Command(BaseCommand):
                 defaults={
                     'description': 'Demo project showcasing social media analytics',
                     'organization': org,
-                    'created_by': admin_user,
+                    'owner': admin_user,
                 }
             )
             self.stdout.write(f'✅ Created project: {project.name}')
@@ -74,8 +84,7 @@ class Command(BaseCommand):
                 profile, created = UserProfile.objects.get_or_create(
                     user=user,
                     defaults={
-                        'phone_number': f'+1234567890{random.randint(0,9)}',
-                        'bio': f'Demo profile for {user.first_name} {user.last_name}',
+                        'company': company,
                     }
                 )
                 if created:
@@ -92,7 +101,7 @@ class Command(BaseCommand):
                         defaults={
                             'platform': platform,
                             'status': 'completed',
-                            'created_by': admin_user,
+                            'user': admin_user,
                             'project': project,
                             'spider_name': f'{platform}_spider',
                             'target_urls': [f'https://{platform}.com/demo_account_{i}'],
