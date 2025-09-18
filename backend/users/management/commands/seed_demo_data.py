@@ -7,24 +7,45 @@ class Command(BaseCommand):
     help = 'Seed database with demo data'
 
     def handle(self, *args, **options):
-        # Check if we already have data
-        if User.objects.count() > 1:
+        # Check if we already have demo data (look for specific demo users)
+        from users.models import UserProfile
+        demo_profiles = UserProfile.objects.filter(user__email__icontains='demo')
+
+        if demo_profiles.exists():
             self.stdout.write(
-                self.style.WARNING('Database already has data. Skipping seeding.')
+                self.style.WARNING('Demo data already exists. Skipping seeding.')
             )
             return
 
+        self.stdout.write('Loading demo data for TrackFutura...')
+
         try:
-            # Load the sample data
-            fixture_path = 'fixtures/sample_data_export.json'
-            if os.path.exists(fixture_path):
+            # Try multiple possible paths for the fixture file
+            possible_paths = [
+                'fixtures/sample_data_export.json',
+                'backend/fixtures/sample_data_export.json',
+                '/app/backend/fixtures/sample_data_export.json',
+                os.path.join(os.path.dirname(__file__), '..', '..', '..', 'fixtures', 'sample_data_export.json'),
+            ]
+
+            fixture_path = None
+            for path in possible_paths:
+                if os.path.exists(path):
+                    fixture_path = path
+                    break
+
+            if fixture_path:
+                self.stdout.write(f'Loading fixture from: {fixture_path}')
                 call_command('loaddata', fixture_path)
                 self.stdout.write(
-                    self.style.SUCCESS('Successfully loaded demo data')
+                    self.style.SUCCESS(f'Successfully loaded demo data from {fixture_path}')
                 )
             else:
                 self.stdout.write(
-                    self.style.WARNING('No fixture file found. Creating basic demo data...')
+                    self.style.WARNING(f'No fixture file found in any of these paths: {possible_paths}')
+                )
+                self.stdout.write(
+                    self.style.WARNING('Creating basic demo data instead...')
                 )
                 # Create a basic admin user
                 User.objects.create_superuser(

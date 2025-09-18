@@ -25,7 +25,7 @@ applications:
         python manage.py collectstatic --noinput
       deploy: |
         python manage.py migrate --noinput
-        python manage.py seed_demo_data
+        python manage.py force_load_demo_data
 
   frontend:
     type: nodejs:18

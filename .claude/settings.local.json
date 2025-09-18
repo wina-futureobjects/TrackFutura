@@ -308,7 +308,11 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(git checkout:*)"
+      "Bash(git checkout:*)",
+      "Bash(upsun project:list:*)",
+      "Bash(where upsun)",
+      "Bash(git remote add:*)",
+      "Bash(INSTALL_METHOD=raw bash)"
     ],
     "deny": [],
     "ask": []
