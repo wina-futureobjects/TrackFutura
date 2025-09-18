@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getScrapyJobs, getScrapyResults } from '../utils/apiWithFallback';
 import {
     Box,
     Button,
@@ -122,11 +123,8 @@ const ScrapyTikTokScraper: React.FC = () => {
 
     const fetchJobs = async () => {
         try {
-            const response = await fetch('/api/scrapy/api/jobs/?platform=tiktok');
-            if (response.ok) {
-                const data = await response.json();
-                setJobs(data.results || data);
-            }
+            const data = await getScrapyJobs('tiktok');
+            setJobs(data.results || data);
         } catch (error) {
             console.error('Error fetching jobs:', error);
         }
@@ -217,11 +215,8 @@ const ScrapyTikTokScraper: React.FC = () => {
         setResultsDialogOpen(true);
         
         try {
-            const response = await fetch(`/api/scrapy/api/jobs/${job.id}/results/`);
-            if (response.ok) {
-                const results = await response.json();
-                setJobResults(results);
-            }
+            const results = await getScrapyResults(job.id);
+            setJobResults(results);
         } catch (error) {
             console.error('Error fetching results:', error);
         }

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { apiFetch } from '../utils/api';
+import { getScrapyJobs, getScrapyResults } from '../utils/apiWithFallback';
 import {
     Box,
     Button,
@@ -141,11 +142,8 @@ const ScrapyInstagramScraper: React.FC = () => {
 
     const fetchJobs = async () => {
         try {
-            const response = await apiFetch('scrapy/api/jobs/?platform=instagram');
-            if (response.ok) {
-                const data = await response.json();
-                setJobs(data.results || data);
-            }
+            const data = await getScrapyJobs('instagram');
+            setJobs(data.results || data);
         } catch (error) {
             console.error('Error fetching jobs:', error);
         }
@@ -263,14 +261,11 @@ const ScrapyInstagramScraper: React.FC = () => {
         setEnhancedSentimentData(null); // Reset previous data
         
         try {
-            const response = await apiFetch(`scrapy/api/jobs/${job.id}/results/`);
-            if (response.ok) {
-                const results = await response.json();
-                setJobResults(results);
-                
-                // Trigger enhanced sentiment analysis
-                await performEnhancedSentimentAnalysis(job.id);
-            }
+            const results = await getScrapyResults(job.id);
+            setJobResults(results);
+
+            // Trigger enhanced sentiment analysis
+            await performEnhancedSentimentAnalysis(job.id);
         } catch (error) {
             console.error('Error fetching results:', error);
         }
