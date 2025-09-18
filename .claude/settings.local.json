@@ -312,7 +312,8 @@
       "Bash(upsun project:list:*)",
       "Bash(where upsun)",
       "Bash(git remote add:*)",
-      "Bash(INSTALL_METHOD=raw bash)"
+      "Bash(INSTALL_METHOD=raw bash)",
+      "Bash(upsun environment:list:*)"
     ],
     "deny": [],
     "ask": []
