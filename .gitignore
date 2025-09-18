@@ -76,4 +76,14 @@ out/
 Thumbs.db
 
 # Project specific
-GE Tracker*.csv 
+GE Tracker*.csv
+
+# Data files - should not be committed
+*.csv
+*.json
+/backend/transformed_linkedin_posts.json
+/test_export.csv
+/final_test_export.csv
+/data/
+scraped_data/
+exports/ 

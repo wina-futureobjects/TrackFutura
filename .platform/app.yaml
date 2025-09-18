@@ -23,8 +23,40 @@ web:
 
 # Variables
 variables:
-  DJANGO_SETTINGS_MODULE: config.settings
-  PYTHONPATH: /app/backend
+  env:
+    # Django configuration
+    DJANGO_SETTINGS_MODULE: config.settings
+    PYTHONPATH: /app/backend
+    DEBUG: false
+
+    # OpenAI API Key (set this in Upsun dashboard for security)
+    OPENAI_API_KEY: "your-openai-api-key-here"
+
+    # BrightData configuration
+    BRIGHTDATA_WEBHOOK_TOKEN: "your-brightdata-webhook-token"
+
+    # Email configuration (optional)
+    EMAIL_HOST: "smtp.gmail.com"
+    EMAIL_PORT: "587"
+    EMAIL_USE_TLS: "true"
+    EMAIL_HOST_USER: ""
+    EMAIL_HOST_PASSWORD: ""
+    DEFAULT_FROM_EMAIL: ""
+
+    # Webhook configuration
+    WEBHOOK_RATE_LIMIT: "100"
+    WEBHOOK_MAX_TIMESTAMP_AGE: "300"
+    WEBHOOK_MAX_EVENTS: "1000"
+    WEBHOOK_METRICS_RETENTION: "3600"
+    WEBHOOK_ERROR_THRESHOLD: "0.1"
+    WEBHOOK_RESPONSE_TIME_THRESHOLD: "5.0"
+    WEBHOOK_ENABLE_CERT_PINNING: "false"
+
+    # Ngrok configuration (for development)
+    NGROK_ENABLED: "false"
+    NGROK_AUTH_TOKEN: ""
+    NGROK_SUBDOMAIN: ""
+    NGROK_REGION: "us"
 
 # Mounts
 mounts:
