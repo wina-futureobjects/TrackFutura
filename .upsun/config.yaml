@@ -12,10 +12,9 @@ applications:
         socket_family: tcp
         protocol: http
     variables:
-      DJANGO_SETTINGS_MODULE: config.settings
-      PYTHONPATH: /app/backend
-    mounts:
-      static: /app/backend/staticfiles
+      env:
+        DJANGO_SETTINGS_MODULE: config.settings
+        PYTHONPATH: /app/backend
     relationships:
       database: postgresql:postgresql
     hooks:
@@ -36,18 +35,16 @@ applications:
       commands:
         start: serve -s dist -l $PORT
     variables:
-      NODE_ENV: production
+      env:
+        NODE_ENV: production
     hooks:
       build: |
         npm install
         npm run build
-    mounts:
-      static: /app/frontend/dist
 
 services:
   postgresql:
     type: postgresql:15
-    disk: 1024
     configuration:
       extensions:
         - uuid-ossp
