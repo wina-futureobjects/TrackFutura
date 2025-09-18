@@ -29,11 +29,9 @@ variables:
     PYTHONPATH: /app/backend
     DEBUG: false
 
-    # OpenAI API Key (set this in Upsun dashboard for security)
-    OPENAI_API_KEY: "your-openai-api-key-here"
-
-    # BrightData configuration
-    BRIGHTDATA_WEBHOOK_TOKEN: "your-brightdata-webhook-token"
+    # Note: Sensitive API keys should be set via Upsun CLI or dashboard
+    # OPENAI_API_KEY: set via: upsun variable:create --level environment env:OPENAI_API_KEY "your-key"
+    # BRIGHTDATA_WEBHOOK_TOKEN: set via: upsun variable:create --level environment env:BRIGHTDATA_WEBHOOK_TOKEN "your-token"
 
     # Email configuration (optional)
     EMAIL_HOST: "smtp.gmail.com"
