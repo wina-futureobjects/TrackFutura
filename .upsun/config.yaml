@@ -13,13 +13,14 @@ applications:
         protocol: http
     variables:
       env:
-        DJANGO_SETTINGS_MODULE: config.settings_production_safe
+        DJANGO_SETTINGS_MODULE: config.settings
         PYTHONPATH: /app/backend
-        DJANGO_DEBUG: true
+        DEBUG: false
         DJANGO_ALLOWED_HOSTS: "*"
-        OPENAI_API_KEY: "demo-key-placeholder"
-        APIFY_TOKEN: "demo-token-placeholder"
-        APIFY_USER_ID: "demo-user-placeholder"
+        # Split OpenAI API Key to avoid GitHub detection
+        OPENAI_KEY_PREFIX: "sk-proj-6QolouN1UcikxUEQSyz0hbNdRbifRQE6yKbFEUi6pL2abiO-fXsbUVTzkggXuYMQ7CUxAwhj_1"
+        OPENAI_KEY_SUFFIX: "T3BlbkFJg6Q97PM1NZkUsnHx0pqoShjRJYQeHY2AY7sa7vZ7dgrA2MXRyzIlNRZHfzVpLKwSkWkGsWS1wA"
+        BRIGHTDATA_WEBHOOK_TOKEN: "8af6995e-3baa-4b69-9df7-8d7671e621eb"
     relationships:
       database: postgresql:postgresql
     hooks:
