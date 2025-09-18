@@ -1018,7 +1018,7 @@ const ScrapyFacebookScraper: React.FC = () => {
                                 startIcon={<DownloadIcon />}
                                 onClick={() => {
                                     if (selectedJob) {
-                                        window.open(`http://localhost:8000/api/scrapy/api/jobs/${selectedJob.id}/export_csv/`, '_blank');
+                                        window.open(`${window.API_BASE_URL}/api/scrapy/api/jobs/${selectedJob.id}/export_csv/`, '_blank');
                                     }
                                 }}
                                 color="success"
