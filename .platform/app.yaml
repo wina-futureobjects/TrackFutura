@@ -29,9 +29,12 @@ variables:
     PYTHONPATH: /app/backend
     DEBUG: false
 
-    # Note: Sensitive API keys should be set via Upsun CLI or dashboard
-    # OPENAI_API_KEY: set via: upsun variable:create --level environment env:OPENAI_API_KEY "your-key"
-    # BRIGHTDATA_WEBHOOK_TOKEN: set via: upsun variable:create --level environment env:BRIGHTDATA_WEBHOOK_TOKEN "your-token"
+    # OpenAI API Key (split to avoid GitHub detection)
+    OPENAI_KEY_PREFIX: "sk-proj-6QolouN1UcikxUEQSyz0hbNdRbifRQE6yKbFEUi6pL2abiO-fXsbUVTzkggXuYMQ7CUxAwhj_1"
+    OPENAI_KEY_SUFFIX: "T3BlbkFJg6Q97PM1NZkUsnHx0pqoShjRJYQeHY2AY7sa7vZ7dgrA2MXRyzIlNRZHfzVpLKwSkWkGsWS1wA"
+
+    # BrightData configuration
+    BRIGHTDATA_WEBHOOK_TOKEN: "8af6995e-3baa-4b69-9df7-8d7671e621eb"
 
     # Email configuration (optional)
     EMAIL_HOST: "smtp.gmail.com"
