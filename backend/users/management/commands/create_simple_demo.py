@@ -46,7 +46,7 @@ class Command(BaseCommand):
             self.stdout.write(f'✅ Created admin: {admin_user.username}')
 
             # Create user profiles
-            from users.models import UserProfile, Organization, Project, Company
+            from users.models import UserProfile, Organization, Project, Company, UserRole, UnifiedUserRecord
 
             # Create demo company first
             company, created = Company.objects.get_or_create(
@@ -79,8 +79,9 @@ class Command(BaseCommand):
             )
             self.stdout.write(f'✅ Created project: {project.name}')
 
-            # Create user profiles
-            for user in demo_users + [admin_user]:
+            # Create user profiles and roles
+            for i, user in enumerate(demo_users + [admin_user]):
+                # Create UserProfile
                 profile, created = UserProfile.objects.get_or_create(
                     user=user,
                     defaults={
@@ -89,6 +90,35 @@ class Command(BaseCommand):
                 )
                 if created:
                     self.stdout.write(f'✅ Created profile for: {user.username}')
+
+                # Create UserRole
+                if user == admin_user:
+                    role_type = 'super_admin'
+                elif i == 0:  # First demo user as tenant admin
+                    role_type = 'tenant_admin'
+                else:
+                    role_type = 'user'
+
+                role, created = UserRole.objects.get_or_create(
+                    user=user,
+                    defaults={'role': role_type}
+                )
+                if created:
+                    self.stdout.write(f'✅ Created role {role_type} for: {user.username}')
+
+                # Create UnifiedUserRecord
+                unified_record, created = UnifiedUserRecord.objects.get_or_create(
+                    user=user,
+                    defaults={
+                        'name': f'{user.first_name} {user.last_name}'.strip() or user.username,
+                        'email': user.email,
+                        'company': company,
+                        'role': role_type,
+                        'status': 'active' if user.is_active else 'inactive',
+                    }
+                )
+                if created:
+                    self.stdout.write(f'✅ Created unified record for: {user.username}')
 
             # Create simple demo social media data
             from scrapy_integration.models import ScrapyJob, ScrapyResult
@@ -171,12 +201,31 @@ class Command(BaseCommand):
             )
             self.stdout.write(f'📊 Summary:')
             self.stdout.write(f'   - Users: {User.objects.count()}')
+            self.stdout.write(f'   - User Profiles: {UserProfile.objects.count()}')
+            self.stdout.write(f'   - User Roles: {UserRole.objects.count()}')
+            self.stdout.write(f'   - Unified User Records: {UnifiedUserRecord.objects.count()}')
+            self.stdout.write(f'   - Companies: {Company.objects.count()}')
             self.stdout.write(f'   - Organizations: {Organization.objects.count()}')
             self.stdout.write(f'   - Projects: {Project.objects.count()}')
             self.stdout.write(f'   - Scrapy Jobs: {ScrapyJob.objects.count()}')
             self.stdout.write(f'   - Scrapy Results: {ScrapyResult.objects.count()}')
             self.stdout.write(f'   - Chat Threads: {ChatThread.objects.count()}')
             self.stdout.write(f'   - Chat Messages: {ChatMessage.objects.count()}')
+
+            # Test API endpoints by checking required relationships
+            self.stdout.write(f'\n🔍 API Readiness Check:')
+            users_with_profiles = User.objects.filter(profile__isnull=False).count()
+            users_with_roles = User.objects.filter(global_role__isnull=False).count()
+            superadmins = User.objects.filter(global_role__role='super_admin').count()
+
+            self.stdout.write(f'   - Users with profiles: {users_with_profiles}/{User.objects.count()}')
+            self.stdout.write(f'   - Users with roles: {users_with_roles}/{User.objects.count()}')
+            self.stdout.write(f'   - Super admins: {superadmins}')
+
+            if superadmins > 0:
+                self.stdout.write(self.style.SUCCESS('✅ API endpoints should work - superadmin exists'))
+            else:
+                self.stdout.write(self.style.WARNING('⚠️ No superadmin found - admin APIs might fail'))
 
         except Exception as e:
             self.stdout.write(
