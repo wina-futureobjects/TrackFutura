@@ -1,0 +1,134 @@
+@import "tailwindcss";
+
+/* Define color theme variables */
+:root {
+  --color-primary: #D291E2;
+  /* Purple */
+  --color-secondary: #6EE5D9;
+  /* Teal */
+  --color-tertiary: #62EF83;
+  /* Green */
+  --color-accent: #A6FDED;
+  /* Light cyan */
+  --color-background: #FFFFFF;
+  /* White */
+  --color-foreground: #000000;
+  /* Black */
+  --color-muted: #666666;
+  /* Gray */
+}
+
+/* Global compact styling overrides */
+* {
+  box-sizing: border-box;
+}
+
+/* Reduce default spacing for more compact UI */
+.MuiContainer-root {
+  padding-left: 12px !important;
+  padding-right: 12px !important;
+}
+
+.MuiGrid-container {
+  margin-top: -12px !important;
+  margin-left: -12px !important;
+}
+
+.MuiGrid-item {
+  padding-top: 12px !important;
+  padding-left: 12px !important;
+}
+
+/* Make cards more compact */
+.MuiCard-root {
+  margin-bottom: 12px !important;
+}
+
+/* Reduce padding on common layout elements */
+.MuiBox-root {
+  line-height: 1.4;
+}
+
+/* Make tables more compact */
+.MuiTableRow-root {
+  height: auto !important;
+}
+
+.MuiTableCell-root {
+  padding: 8px 12px !important;
+  border-bottom: 1px solid var(--color-accent) !important;
+}
+
+/* More compact form elements */
+.MuiFormControl-root {
+  margin: 8px 0 !important;
+}
+
+.MuiInputBase-root {
+  font-size: 0.9rem !important;
+}
+
+/* Compact breadcrumbs */
+.MuiBreadcrumbs-root {
+  margin-bottom: 12px !important;
+}
+
+/* Custom styles */
+.MuiBreadcrumbs-ol a {
+  cursor: pointer;
+}
+
+/* Fix for Material-UI sidebar layout issues */
+main[class*="css-"] {
+  margin-left: 0 !important;
+}
+
+.css-1riye17 {
+  margin-left: 0 !important;
+}
+
+/* Ensure proper flex layout for main content */
+main {
+  flex-shrink: 1;
+  min-width: 0;
+}
+
+/* Typewriter cursor animation */
+.cursor {
+  display: inline-block;
+  width: 2px;
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+}
+
+@keyframes blink {
+
+  from,
+  to {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Compact scrollbar styling using theme colors */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-accent);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-secondary);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary);
+}

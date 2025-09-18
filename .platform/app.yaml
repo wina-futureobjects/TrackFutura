@@ -1,0 +1,47 @@
+name: track-futura
+type: python:3.11
+
+# Build configuration
+build:
+  flavor: none
+
+# Web configuration
+web:
+  commands:
+    start: gunicorn --bind 0.0.0.0:$PORT --workers 3 config.wsgi:application
+  upstream:
+    socket_family: tcp
+    protocol: http
+  locations:
+    "/":
+      root: "public"
+      index: ["index.html"]
+      allow: true
+      passthru: true
+    "/api/":
+      passthru: true
+
+# Variables
+variables:
+  DJANGO_SETTINGS_MODULE: config.settings
+  PYTHONPATH: /app/backend
+
+# Mounts
+mounts:
+  static: /app/backend/staticfiles
+
+# Relationships
+relationships:
+  database: postgresql:postgresql
+
+# Hooks
+hooks:
+  build: |
+    pip install -r requirements.txt
+    python manage.py collectstatic --noinput
+  deploy: |
+    python manage.py migrate --noinput
+
+# Source directory
+source:
+  root: backend

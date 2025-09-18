@@ -1,0 +1,209 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Frontend Navigation Guide
+
+## React Application Structure
+
+### Core Directories
+- `src/components/` - Reusable UI components
+- `src/pages/` - Page-level components and routing
+- `src/services/` - API service functions and HTTP clients
+- `src/utils/` - Utility functions and helpers
+- `src/theme/` - Material-UI theme configuration
+- `src/assets/` - Static assets (images, icons, etc.)
+
+### Key Files
+- `src/App.tsx` - Main application component with routing
+- `src/main.tsx` - Application entry point
+- `src/index.css` - Global styles
+- `src/vite-env.d.ts` - Vite environment types
+- `src/custom.d.ts` - Custom TypeScript declarations
+
+## Component Architecture
+
+### Component Types
+1. **Page Components** (`pages/`):
+   - Full page layouts
+   - Route-specific components
+   - Data fetching and state management
+
+2. **Reusable Components** (`components/`):
+   - UI elements (buttons, forms, modals)
+   - Data visualization components
+   - Layout components (headers, sidebars)
+
+3. **Feature Components**:
+   - Platform-specific components (Facebook, Instagram, etc.)
+   - Report generation interfaces
+   - Analytics dashboards
+
+## Technology Stack Usage
+
+### UI Libraries
+- **Material-UI (MUI)**: Primary component library
+  - Use MUI components for consistent design
+  - Leverage MUI theming system
+  - Implement responsive design patterns
+
+- **Tailwind CSS**: Custom styling
+  - Use for layout and spacing utilities
+  - Apply custom styles when MUI is insufficient
+  - Maintain design consistency
+
+- **Radix UI**: Headless components
+  - Use for complex interactive components
+  - Provides accessibility features
+  - Customizable with Tailwind
+
+### Data Visualization
+- **Chart.js + React-Chartjs-2**: Primary charting library
+- **Recharts**: Alternative charting solution
+- **Framer Motion**: Animations and transitions
+- **React Spring**: Physics-based animations
+
+### State Management
+- **React Hooks**: Local component state
+- **React Router**: Navigation and routing
+- **Context API**: Global state when needed
+
+## Common Patterns
+
+### API Integration
+```typescript
+// services/api.ts pattern
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: '/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+export const fetchData = async (endpoint: string) => {
+  try {
+    const response = await api.get(endpoint);
+    return response.data;
+  } catch (error) {
+    console.error('API Error:', error);
+    throw error;
+  }
+};
+```
+
+### Component Structure
+```typescript
+// components/ExampleComponent.tsx pattern
+import React, { useState, useEffect } from 'react';
+import { Box, Typography, Button } from '@mui/material';
+
+interface ExampleComponentProps {
+  title: string;
+  data: any[];
+}
+
+const ExampleComponent: React.FC<ExampleComponentProps> = ({ title, data }) => {
+  const [loading, setLoading] = useState(false);
+
+  return (
+    <Box>
+      <Typography variant="h6">{title}</Typography>
+      {/* Component content */}
+    </Box>
+  );
+};
+
+export default ExampleComponent;
+```
+
+### Page Structure
+```typescript
+// pages/ExamplePage.tsx pattern
+import React, { useState, useEffect } from 'react';
+import { Container, Grid } from '@mui/material';
+import { fetchData } from '../services/api';
+
+const ExamplePage: React.FC = () => {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Data fetching logic
+  }, []);
+
+  return (
+    <Container maxWidth="lg">
+      <Grid container spacing={3}>
+        {/* Page content */}
+      </Grid>
+    </Container>
+  );
+};
+
+export default ExamplePage;
+```
+
+## Routing Structure
+
+### Main Routes (App.tsx):
+- `/` - Dashboard/Home page
+- `/projects` - Projects management
+- `/reports` - Report generation and viewing
+- `/analytics` - Analytics dashboard
+- `/data-collection` - Scraping job management
+- `/settings` - User settings and configuration
+
+### Platform-Specific Routes:
+- `/facebook` - Facebook data management
+- `/instagram` - Instagram data management
+- `/linkedin` - LinkedIn data management
+- `/tiktok` - TikTok data management
+
+## Development Guidelines
+
+### TypeScript Usage
+- Define interfaces for all props and data structures
+- Use strict TypeScript configuration
+- Avoid `any` types - use proper typing
+- Create type definitions for API responses
+
+### Material-UI Best Practices
+- Use theme configuration for consistent styling
+- Leverage MUI's responsive utilities
+- Implement proper theme variants (light/dark)
+- Use MUI icons and standard components
+
+### Performance Considerations
+- Implement React.memo for expensive components
+- Use useCallback and useMemo appropriately
+- Lazy load pages and large components
+- Optimize re-renders with proper dependency arrays
+
+### Error Handling
+- Implement error boundaries for component trees
+- Show user-friendly error messages
+- Log errors appropriately for debugging
+- Provide retry mechanisms for failed operations
+
+## Common Development Tasks
+
+### Adding New Page:
+1. Create page component in `pages/`
+2. Add route to `App.tsx`
+3. Implement navigation links
+4. Add API service functions if needed
+
+### Creating Reusable Component:
+1. Define TypeScript interface for props
+2. Implement component with proper error handling
+3. Add to component library in `components/`
+4. Document usage and examples
+
+### Integrating New API Endpoint:
+1. Add service function in `services/`
+2. Define TypeScript interfaces for data
+3. Implement error handling and loading states
+4. Add to relevant components/pages

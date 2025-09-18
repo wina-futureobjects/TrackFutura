@@ -1,0 +1,106 @@
+{
+  "facebook_posts": {
+    "dataset_id": "gd_lkaxegm826bjpoo9m5",
+    "platform_name": "facebook",
+    "service_type": "posts",
+    "content_type": "post",
+    "payload_structure": {
+      "url": "direct_url"
+    },
+    "url_extraction": {
+      "field": "facebook_link",
+      "method": "direct_url"
+    },
+    "discovery_params": {
+      "discover_by": "url"
+    },
+    "required_fields": ["url"],
+    "optional_fields": ["num_of_posts", "start_date", "end_date", "posts_to_not_include"],
+    "api_limitations": {
+      "rate_limit": "requests_per_minute",
+      "max_posts": 1000
+    },
+    "error_handling": {
+      "retry_on_failure": true,
+      "max_retries": 3
+    }
+  },
+  "instagram_posts": {
+    "dataset_id": "gd_lk5ns7kz21pck8jpis",
+    "platform_name": "instagram",
+    "service_type": "posts",
+    "content_type": "post",
+    "payload_structure": {
+      "username": "extract_from_url"
+    },
+    "url_extraction": {
+      "field": "instagram_link",
+      "method": "extract_username_from_url"
+    },
+    "discovery_params": {
+      "discover_by": "username"
+    },
+    "required_fields": ["username"],
+    "optional_fields": ["num_of_posts", "start_date", "end_date"],
+    "api_limitations": {
+      "rate_limit": "requests_per_minute",
+      "max_posts": 1000
+    },
+    "error_handling": {
+      "retry_on_failure": true,
+      "max_retries": 3
+    }
+  },
+  "linkedin_posts": {
+    "dataset_id": "gd_lyy3tktm25m4avu764",
+    "platform_name": "linkedin",
+    "service_type": "posts",
+    "content_type": "post",
+    "payload_structure": {
+      "url": "direct_url"
+    },
+    "url_extraction": {
+      "field": "linkedin_link",
+      "method": "direct_url"
+    },
+    "discovery_params": {
+      "discover_by": "url"
+    },
+    "required_fields": ["url"],
+    "optional_fields": [],
+    "api_limitations": {
+      "rate_limit": "requests_per_minute",
+      "max_posts": 1000
+    },
+    "error_handling": {
+      "retry_on_failure": true,
+      "max_retries": 3
+    }
+  },
+  "tiktok_posts": {
+    "dataset_id": "gd_lu702nij2f790tmv9h",
+    "platform_name": "tiktok",
+    "service_type": "posts",
+    "content_type": "post",
+    "payload_structure": {
+      "URL": "direct_url"
+    },
+    "url_extraction": {
+      "field": "tiktok_link",
+      "method": "direct_url"
+    },
+    "discovery_params": {
+      "discover_by": "url"
+    },
+    "required_fields": ["URL"],
+    "optional_fields": [],
+    "api_limitations": {
+      "rate_limit": "requests_per_minute",
+      "max_posts": 1000
+    },
+    "error_handling": {
+      "retry_on_failure": true,
+      "max_retries": 3
+    }
+  }
+} 

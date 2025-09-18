@@ -1,0 +1,161 @@
+# Track-Futura Project Rules
+
+You are an AI assistant working on Track-Futura, a comprehensive social media analytics and data collection platform. This is a full-stack application with a Django REST API backend and React TypeScript frontend.
+
+## Project Structure & Architecture
+
+**Backend (Django REST Framework):**
+- Located in `/backend/` directory
+- Python/Django application with SQLite database
+- Key apps: users, reports, analytics, data_collector, query_builder, facebook_data, instagram_data, linkedin_data, tiktok_data, brightdata_integration, chat, track_accounts
+- Uses Django REST Framework for API endpoints
+- Integrates with BrightData API for web scraping
+- Implements custom CSRF middleware and CORS handling
+
+**Frontend (React + TypeScript):**
+- Located in `/frontend/` directory
+- React 18 with TypeScript and Vite
+- UI Libraries: Material-UI (MUI), Tailwind CSS, Radix UI components
+- Charting: Chart.js, Recharts
+- State management and routing with React Router DOM
+- Animation libraries: Framer Motion, React Spring
+
+**Key Features:**
+- Social media data collection and scraping
+- Multi-platform analytics (Facebook, Instagram, LinkedIn, TikTok)
+- Report generation and data visualization
+- User management and authentication
+- Real-time chat functionality
+- Data export capabilities (CSV)
+- Webhook handling for scraping job updates
+
+## Development Guidelines
+
+### Backend (Django)
+- Follow Django best practices and DRF conventions
+- Use ViewSets for API endpoints with proper serializers
+- Implement proper error handling and validation
+- Use Django's authentication and permission system
+- Create model relationships appropriately
+- Use services.py files for business logic
+- Implement webhook handlers for external API callbacks
+- Use environment variables for configuration
+
+### Frontend (React/TypeScript)
+- Use functional components with React hooks
+- Implement proper TypeScript types and interfaces
+- Follow Material-UI design patterns and theming
+- Use Tailwind for custom styling when needed
+- Implement proper error boundaries and loading states
+- Use React Router for navigation
+- Create reusable components in `/components/` directory
+- Use services for API calls with proper error handling
+
+### Code Quality
+- Write clean, readable, and maintainable code
+- Use meaningful variable and function names
+- Add JSDoc comments for complex functions
+- Implement proper error handling throughout
+- Use TypeScript strictly - avoid `any` types
+- Follow consistent code formatting
+- Implement proper data validation
+
+### API Integration
+- Use axios for HTTP requests with proper error handling
+- Implement loading states for async operations
+- Handle authentication tokens appropriately
+- Use proper HTTP status codes and error responses
+- Implement retry logic for failed requests
+
+### Data Handling
+- Use pandas for data processing in Python
+- Implement proper data validation and sanitization
+- Handle large datasets efficiently
+- Use pagination for list endpoints
+- Implement proper CSV export functionality
+- Handle file uploads securely
+
+### Security
+- Implement proper CSRF protection
+- Use environment variables for sensitive data
+- Validate all user inputs
+- Implement proper authentication and authorization
+- Handle file uploads securely
+- Use HTTPS in production
+
+## File Organization
+
+**Backend Structure:**
+```
+backend/
+├── config/          # Django project settings
+├── users/           # User management
+├── reports/         # Report generation
+├── analytics/       # Analytics features
+├── data_collector/  # Data collection utilities
+├── query_builder/   # Query building interface
+├── facebook_data/   # Facebook scraping and data
+├── instagram_data/  # Instagram scraping and data
+├── linkedin_data/   # LinkedIn scraping and data
+├── tiktok_data/     # TikTok scraping and data
+├── track_accounts/  # Account tracking
+├── brightdata_integration/ # BrightData API integration
+└── chat/           # Real-time chat features
+```
+
+**Frontend Structure:**
+```
+frontend/src/
+├── components/     # Reusable UI components
+├── pages/         # Page-level components
+├── services/      # API service functions
+├── utils/         # Utility functions
+├── theme/         # Material-UI theme configuration
+└── assets/        # Static assets
+```
+
+## Common Tasks
+
+**Adding New Social Media Platform:**
+1. Create new Django app: `python manage.py startapp [platform]_data`
+2. Define models for platform-specific data
+3. Create serializers and viewsets
+4. Add API endpoints
+5. Create frontend components for data visualization
+6. Implement scraping integration with BrightData
+
+**Creating New Reports:**
+1. Add report model in `reports/models.py`
+2. Create viewset with export functionality
+3. Build frontend components with charts
+4. Implement filtering and search capabilities
+
+**Adding New Features:**
+1. Plan database schema changes
+2. Create/update Django models and migrations
+3. Implement API endpoints with proper serialization
+4. Create TypeScript interfaces
+5. Build React components with proper error handling
+6. Add navigation and routing updates
+
+## Testing & Development
+
+**Development Commands:**
+- Backend: `cd backend && python manage.py runserver`
+- Frontend: `cd frontend && npm run dev`
+- Full stack: `npm start` (uses concurrently)
+
+**Database:**
+- Use Django migrations for schema changes
+- Implement proper model relationships
+- Use fixtures for demo data when appropriate
+
+## Important Notes
+
+- Always check both frontend and backend when implementing new features
+- The project uses SQLite for development
+- BrightData integration is crucial for scraping functionality
+- Material-UI theming should be consistent throughout
+- Implement proper loading states and error handling
+- Use TypeScript strictly for better code quality
+- Follow Django REST Framework conventions for API design 

@@ -1,0 +1,153 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Backend Navigation
+
+The backend is a Django application structured into multiple apps, each handling specific functionality.
+
+## Core Configuration
+
+- [manage.py](mdc:backend/manage.py): Django's command-line utility for administrative tasks
+- [config/settings.py](mdc:backend/config/settings.py): Main Django project settings
+- [config/urls.py](mdc:backend/config/urls.py): URL routing configuration for the entire backend
+
+## Key Apps
+
+### Data Collection and Processing
+
+- **Data Collector**: Handles collecting data from social media platforms
+  - [data_collector/urls.py](mdc:backend/data_collector/urls.py)
+
+### Social Media Data Handling
+
+- **Facebook Data**: Handles Facebook-specific data
+  - [facebook_data/urls.py](mdc:backend/facebook_data/urls.py)
+- **Instagram Data**: Handles Instagram-specific data
+  - [instagram_data/urls.py](mdc:backend/instagram_data/urls.py)
+- **LinkedIn Data**: Handles LinkedIn-specific data
+  - [linkedin_data/urls.py](mdc:backend/linkedin_data/urls.py)
+- **TikTok Data**: Handles TikTok-specific data
+  - [tiktok_data/urls.py](mdc:backend/tiktok_data/urls.py)
+
+### Analytics and Reports
+
+- **Analytics**: Processes and analyzes collected data
+  - [analytics/urls.py](mdc:backend/analytics/urls.py)
+- **Reports**: Generates reports based on analytics
+  - [reports/urls.py](mdc:backend/reports/urls.py)
+- **Query Builder**: Builds SQL and NoSQL queries
+  - [query_builder/urls.py](mdc:backend/query_builder/urls.py)
+
+### User Management
+
+- **Users**: Handles user authentication and management
+  - [users/urls.py](mdc:backend/users/urls.py)
+- **Track Accounts**: Manages social media accounts being tracked
+  - [track_accounts/urls.py](mdc:backend/track_accounts/urls.py)
+
+## Database
+
+- [fix_db.py](mdc:backend/fix_db.py): Utility script for database fixes
+- [fix_database.py](mdc:backend/fix_database.py): Additional database maintenance scripts
+
+# Backend Navigation Guide
+
+## Django Apps Structure
+
+### Core Apps
+- `config/` - Main Django project settings and URLs
+- `users/` - User authentication, profiles, and permissions
+- `reports/` - Report generation and management
+- `analytics/` - Analytics calculations and data processing
+
+### Data Collection Apps
+- `data_collector/` - Core data collection utilities and base classes
+- `facebook_data/` - Facebook posts, comments, and scraping jobs
+- `instagram_data/` - Instagram posts, stories, and data collection
+- `linkedin_data/` - LinkedIn posts and professional content
+- `tiktok_data/` - TikTok videos and engagement data
+- `track_accounts/` - Social media account tracking and management
+
+### Integration & Features
+- `brightdata_integration/` - BrightData API integration and webhook handling
+- `query_builder/` - Dynamic query building interface
+- `chat/` - Real-time chat and collaboration features
+
+## Common File Patterns
+
+### Each Django App Contains:
+- `models.py` - Database models and relationships
+- `serializers.py` - DRF serializers for API responses
+- `views.py` - ViewSets and API endpoints
+- `urls.py` - URL routing for the app
+- `services.py` - Business logic and external API integration
+- `admin.py` - Django admin interface configuration
+- `migrations/` - Database migration files
+
+### Key Backend Files:
+- `backend/config/settings.py` - Django configuration
+- `backend/config/urls.py` - Main URL routing
+- `backend/manage.py` - Django management script
+- `backend/requirements.txt` - Python dependencies
+
+## API Endpoint Patterns
+
+### Standard ViewSet Endpoints:
+- `GET /api/[app]/[model]/` - List view with filtering
+- `POST /api/[app]/[model]/` - Create new instance
+- `GET /api/[app]/[model]/{id}/` - Retrieve specific instance
+- `PUT/PATCH /api/[app]/[model]/{id}/` - Update instance
+- `DELETE /api/[app]/[model]/{id}/` - Delete instance
+
+### Custom Actions:
+- `POST /api/[app]/[model]/{id}/execute/` - Execute jobs
+- `GET /api/[app]/[model]/statistics/` - Get statistics
+- `POST /api/[app]/[model]/export/` - Export data
+- `POST /api/[app]/[model]/process_webhook/` - Handle webhooks
+
+## Database Models
+
+### User Models (`users/models.py`):
+- User profiles and authentication
+- Project and workspace management
+
+### Social Media Models:
+- Platform-specific post models (FacebookPost, InstagramPost, etc.)
+- Comment and engagement models
+- User/account tracking models
+
+### Job Management Models:
+- Scraping job models with status tracking
+- Webhook processing models
+- Progress and error logging
+
+## Services Layer
+
+### BrightData Integration (`brightdata_integration/services.py`):
+- API request handling
+- Webhook processing
+- Job status management
+
+### Data Processing Services:
+- CSV import/export functionality
+- Data validation and cleaning
+- Analytics calculations
+
+## Common Development Tasks
+
+### Adding New API Endpoint:
+1. Define model in `models.py`
+2. Create serializer in `serializers.py`
+3. Implement ViewSet in `views.py`
+4. Add URL pattern in `urls.py`
+5. Create migration: `python manage.py makemigrations`
+6. Apply migration: `python manage.py migrate`
+
+### Debugging Backend Issues:
+- Check Django logs in console
+- Use Django admin interface for data inspection
+- Test API endpoints with Django REST Framework browser
+- Review webhook logs for external API issues
+

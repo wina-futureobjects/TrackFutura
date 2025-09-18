@@ -1,0 +1,11 @@
+"https://trackfutura.futureobjects.io":
+  type: upstream
+  upstream: track-futura:http
+
+"https://api.trackfutura.futureobjects.io":
+  type: upstream
+  upstream: track-futura:http
+
+"https://www.trackfutura.futureobjects.io":
+  type: redirect
+  to: "https://trackfutura.futureobjects.io"

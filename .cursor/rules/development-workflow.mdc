@@ -1,0 +1,242 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Development Workflow Guide
+
+## Setup and Environment
+
+### Initial Setup
+1. **Clone Repository**: `git clone [repository-url]`
+2. **Backend Setup**:
+   ```bash
+   cd backend
+   python -m venv venv
+   venv\Scripts\activate  # Windows
+   pip install -r requirements.txt
+   python manage.py migrate
+   python manage.py createsuperuser
+   ```
+3. **Frontend Setup**:
+   ```bash
+   cd frontend
+   npm install
+   ```
+4. **Environment Configuration**:
+   - Copy `.environment` template and configure variables
+   - Set BrightData API credentials
+   - Configure database settings
+
+### Development Commands
+- **Start Backend**: `cd backend && python manage.py runserver`
+- **Start Frontend**: `cd frontend && npm run dev`
+- **Start Both**: `npm start` (uses concurrently)
+- **Backend Tests**: `cd backend && python manage.py test`
+- **Frontend Build**: `cd frontend && npm run build`
+
+## Git Workflow
+
+### Branch Strategy
+- `main` - Production-ready code
+- `develop` - Integration branch for features
+- `feature/[feature-name]` - Individual feature development
+- `hotfix/[issue-name]` - Critical bug fixes
+
+### Commit Message Format
+```
+type(scope): description
+
+feat(facebook): add comment scraping functionality
+fix(auth): resolve CSRF token validation
+docs(readme): update installation instructions
+refactor(api): optimize database queries
+```
+
+### Pull Request Process
+1. Create feature branch from `develop`
+2. Implement changes with proper testing
+3. Update documentation if needed
+4. Create pull request with detailed description
+5. Code review and testing
+6. Merge to `develop` after approval
+
+## Development Standards
+
+### Code Quality
+- **Backend**: Follow PEP 8 style guide for Python
+- **Frontend**: Use ESLint and Prettier for TypeScript/React
+- **Testing**: Write unit tests for new functionality
+- **Documentation**: Add docstrings and comments for complex logic
+
+### Database Management
+- **Migrations**: Always create migrations for model changes
+- **Backup**: Regular database backups before major changes
+- **Seeds**: Use fixtures or seed scripts for demo data
+- **Indexing**: Add database indexes for performance-critical queries
+
+### API Development
+- **Versioning**: Use versioned API endpoints when breaking changes occur
+- **Documentation**: Document API endpoints with proper examples
+- **Error Handling**: Implement consistent error response formats
+- **Rate Limiting**: Consider rate limiting for public endpoints
+
+## Testing Strategy
+
+### Backend Testing
+```python
+# Example test structure
+class FacebookDataTestCase(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user('test@example.com')
+        self.project = Project.objects.create(name='Test', user=self.user)
+    
+    def test_create_facebook_post(self):
+        # Test implementation
+        pass
+```
+
+### Frontend Testing
+```typescript
+// Example component test
+import { render, screen } from '@testing-library/react';
+import ExampleComponent from './ExampleComponent';
+
+test('renders component correctly', () => {
+  render(<ExampleComponent title="Test" />);
+  expect(screen.getByText('Test')).toBeInTheDocument();
+});
+```
+
+### Integration Testing
+- Test complete data flow from API to UI
+- Validate webhook processing with mock data
+- Test user authentication and permissions
+- Verify data export/import functionality
+
+## Deployment Workflow
+
+### Development Environment
+- Local development with SQLite database
+- Hot reload for both frontend and backend
+- Debug mode enabled with detailed error messages
+
+### Staging Environment
+- Production-like environment for testing
+- PostgreSQL database for realistic performance testing
+- Integration with external APIs (BrightData)
+- User acceptance testing
+
+### Production Deployment
+- Automated deployment with CI/CD pipeline
+- Database migrations run automatically
+- Static file optimization and CDN
+- Monitoring and error tracking enabled
+
+## Feature Development Process
+
+### Adding New Social Media Platform
+
+1. **Backend Implementation**:
+   ```bash
+   # Create new Django app
+   cd backend
+   python manage.py startapp [platform]_data
+   ```
+   
+2. **Model Definition**:
+   - Create platform-specific data models
+   - Add relationships to existing models
+   - Create database migrations
+
+3. **API Implementation**:
+   - Create serializers for data transformation
+   - Implement ViewSets with CRUD operations
+   - Add URL routing for new endpoints
+
+4. **BrightData Integration**:
+   - Configure scraping parameters
+   - Implement webhook processing
+   - Add job management functionality
+
+5. **Frontend Implementation**:
+   - Create TypeScript interfaces for data
+   - Build UI components for data display
+   - Add navigation and routing
+   - Implement data visualization
+
+### Bug Fix Workflow
+
+1. **Issue Identification**:
+   - Reproduce the bug consistently
+   - Identify affected components/modules
+   - Check logs for error details
+
+2. **Root Cause Analysis**:
+   - Review recent changes that might cause the issue
+   - Test in different environments
+   - Check database integrity
+
+3. **Fix Implementation**:
+   - Create hotfix branch if critical
+   - Implement minimal fix with proper testing
+   - Add regression tests to prevent reoccurrence
+
+4. **Validation**:
+   - Test fix in development environment
+   - Verify no side effects on other functionality
+   - Update documentation if needed
+
+## Performance Optimization
+
+### Backend Optimization
+- **Database Queries**: Use select_related() and prefetch_related()
+- **Caching**: Implement Redis caching for expensive operations
+- **Background Jobs**: Use Celery for long-running tasks
+- **API Pagination**: Implement proper pagination for large datasets
+
+### Frontend Optimization
+- **Code Splitting**: Lazy load components and pages
+- **Bundle Optimization**: Use Vite's optimization features
+- **Image Optimization**: Compress and optimize images
+- **Caching**: Implement proper browser caching strategies
+
+## Monitoring and Debugging
+
+### Development Debugging
+- **Backend**: Use Django Debug Toolbar and logging
+- **Frontend**: Use React Developer Tools and browser debugging
+- **API**: Test endpoints with Postman or DRF browsable API
+- **Database**: Use Django admin interface for data inspection
+
+### Error Tracking
+- Implement proper error logging in both frontend and backend
+- Use error tracking services for production monitoring
+- Set up alerts for critical errors
+- Maintain error documentation for common issues
+
+### Performance Monitoring
+- Track API response times and database query performance
+- Monitor frontend bundle sizes and load times
+- Set up health check endpoints for system monitoring
+- Use profiling tools to identify bottlenecks
+
+## Documentation Standards
+
+### Code Documentation
+- Add docstrings to all Python functions and classes
+- Use JSDoc comments for TypeScript functions
+- Document complex business logic and algorithms
+- Maintain API documentation with examples
+
+### Project Documentation
+- Keep README.md updated with setup instructions
+- Document deployment procedures and environment setup
+- Maintain changelog for version updates
+- Create user guides for new features
+
+### API Documentation
+- Use Django REST Framework's built-in documentation
+- Include request/response examples
+- Document authentication requirements
+- Provide error code explanations

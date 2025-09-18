@@ -1,0 +1,43 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Track-Futura Project Overview
+
+## What is Track-Futura?
+Track-Futura is a comprehensive social media analytics and data collection platform that enables users to scrape, analyze, and generate reports from multiple social media platforms including Facebook, Instagram, LinkedIn, and TikTok.
+
+## Core Functionality
+- **Data Collection**: Automated scraping of social media content using BrightData API
+- **Multi-Platform Analytics**: Support for Facebook, Instagram, LinkedIn, TikTok
+- **Report Generation**: Customizable reports with data visualization
+- **Real-time Monitoring**: Live data collection and webhook processing
+- **User Management**: Multi-tenant system with user authentication
+- **Data Export**: CSV export capabilities for all collected data
+
+## Technology Stack
+- **Backend**: Django REST Framework, Python, SQLite
+- **Frontend**: React 18, TypeScript, Material-UI, Tailwind CSS
+- **Data Processing**: Pandas, NumPy
+- **Visualization**: Chart.js, Recharts
+- **External APIs**: BrightData for web scraping
+
+## Key Business Logic
+- Users can create projects to organize their data collection efforts
+- Each social media platform has dedicated data models and scraping workflows
+- Scraping jobs are managed asynchronously with webhook callbacks
+- Reports can be generated from collected data with various filtering options
+- Real-time chat functionality for collaboration
+
+## Database Structure
+- User and authentication models
+- Platform-specific data models (FacebookPost, InstagramPost, etc.)
+- Project and folder organization models
+- Scraping job tracking models
+- Report and analytics models
+
+## External Integrations
+- **BrightData API**: Primary scraping service
+- **Webhook Processing**: Real-time job status updates
+- **File Handling**: CSV imports/exports, file uploads

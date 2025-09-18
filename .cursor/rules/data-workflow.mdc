@@ -1,0 +1,176 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Data Workflow Guide
+
+## Social Media Data Collection Flow
+
+### 1. Data Scraping Workflow
+
+#### BrightData Integration Process:
+1. **Job Creation**: User selects data sources (folders, accounts, posts)
+2. **API Request**: Backend submits scraping job to BrightData API
+3. **Job Execution**: BrightData processes the scraping request
+4. **Webhook Response**: BrightData sends results via webhook
+5. **Data Processing**: Backend processes and stores the scraped data
+6. **User Notification**: Frontend updates with job completion status
+
+#### Supported Platforms:
+- **Facebook**: Posts, comments, reactions, user profiles
+- **Instagram**: Posts, stories, comments, hashtags
+- **LinkedIn**: Posts, articles, professional content
+- **TikTok**: Videos, comments, user engagement
+
+### 2. Data Models and Relationships
+
+#### Core Data Structure:
+```
+User -> Project -> Folder -> Posts -> Comments
+                         -> Accounts -> Engagement Data
+```
+
+#### Platform-Specific Models:
+- `FacebookPost`, `FacebookComment`, `FacebookAccount`
+- `InstagramPost`, `InstagramStory`, `InstagramAccount`
+- `LinkedInPost`, `LinkedInArticle`, `LinkedInProfile`
+- `TikTokVideo`, `TikTokComment`, `TikTokProfile`
+
+#### Job Management Models:
+- `ScrapingJob`: Tracks job status and configuration
+- `WebhookLog`: Logs webhook processing events
+- `DataImport`: Manages CSV imports and data validation
+
+### 3. Data Processing Pipeline
+
+#### Webhook Processing:
+1. **Receive Webhook**: BrightData sends completion notification
+2. **Validate Data**: Check data integrity and format
+3. **Transform Data**: Clean and normalize scraped content
+4. **Store Data**: Save to appropriate database models
+5. **Update Job Status**: Mark job as completed or failed
+6. **Trigger Analytics**: Update derived metrics and reports
+
+#### Data Validation Rules:
+- Required fields validation (post_id, content, timestamp)
+- Data type validation (dates, numbers, strings)
+- Duplicate detection and prevention
+- Content sanitization and encoding
+
+### 4. Analytics and Report Generation
+
+#### Metrics Calculation:
+- **Engagement Metrics**: Likes, comments, shares, reactions
+- **Temporal Analysis**: Posting frequency, peak engagement times
+- **Content Analysis**: Hashtag usage, content themes, sentiment
+- **Audience Insights**: Follower growth, demographic data
+
+#### Report Types:
+1. **Performance Reports**: Engagement statistics and trends
+2. **Content Analysis**: Popular posts and content themes
+3. **Competitive Analysis**: Cross-account comparisons
+4. **Temporal Reports**: Time-based analytics and patterns
+
+### 5. Data Export and Import
+
+#### CSV Export Features:
+- Filtered data export based on date ranges, platforms, accounts
+- Custom field selection for reports
+- Bulk export capabilities for large datasets
+- Formatted output for external analysis tools
+
+#### Data Import Process:
+1. **File Upload**: User uploads CSV data file
+2. **Schema Validation**: Verify column headers and data types
+3. **Data Mapping**: Map CSV columns to database fields
+4. **Duplicate Check**: Identify and handle duplicate records
+5. **Batch Import**: Process data in chunks for performance
+6. **Error Reporting**: Provide detailed import results
+
+### 6. Real-time Data Management
+
+#### Webhook Processing Patterns:
+```python
+# Webhook handler pattern
+def process_webhook(webhook_data):
+    try:
+        # Validate webhook data
+        validated_data = validate_webhook_structure(webhook_data)
+        
+        # Process each data item
+        for item in validated_data['items']:
+            process_scraped_item(item)
+        
+        # Update job status
+        update_job_completion(validated_data['job_id'])
+        
+    except Exception as e:
+        log_webhook_error(e, webhook_data)
+        raise
+```
+
+#### Data Synchronization:
+- Real-time updates via WebSocket connections
+- Background job processing for large datasets
+- Progressive loading for UI components
+- Cache invalidation strategies
+
+### 7. Data Quality and Validation
+
+#### Quality Assurance:
+- Data completeness checks (required fields present)
+- Format validation (URL formats, date formats)
+- Content validation (text encoding, special characters)
+- Relationship integrity (posts linked to correct accounts)
+
+#### Error Handling:
+- Graceful degradation for partial data
+- Retry mechanisms for failed processing
+- Detailed error logging and reporting
+- User notification for data quality issues
+
+### 8. Performance Optimization
+
+#### Database Optimization:
+- Indexing strategies for large datasets
+- Query optimization for analytics calculations
+- Pagination for large result sets
+- Database connection pooling
+
+#### Caching Strategies:
+- Redis caching for frequently accessed data
+- Browser caching for static content
+- API response caching for expensive calculations
+- Progressive data loading in frontend
+
+### 9. Data Security and Privacy
+
+#### Security Measures:
+- Data encryption at rest and in transit
+- Access control based on user permissions
+- Audit logging for data access and modifications
+- GDPR compliance for user data handling
+
+#### Privacy Considerations:
+- User consent management
+- Data anonymization options
+- Right to be forgotten implementation
+- Data retention policies
+
+### 10. Development Workflow
+
+#### Adding New Data Source:
+1. Define new data models in appropriate app
+2. Create serializers for API responses
+3. Implement scraping job configuration
+4. Add webhook processing logic
+5. Create frontend components for data display
+6. Add analytics calculations for new data type
+
+#### Debugging Data Issues:
+1. Check webhook logs for processing errors
+2. Validate data integrity in database
+3. Review BrightData job status and errors
+4. Test data processing with sample datasets
+5. Monitor real-time data updates in frontend

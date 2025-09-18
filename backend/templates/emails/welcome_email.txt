@@ -1,0 +1,17 @@
+Welcome to {{ site_name }}!
+
+Your account has been created successfully. Here are your login details:
+
+Email: {{ email }}
+Company: {{ company }}
+Role: {{ role }}
+
+Username: {{ username }}
+Password: {{ password }}
+
+You can login at: https://trackfutura.futureobjects.io/
+
+Please change your password after your first login for security.
+
+Best regards,
+The {{ site_name }} Development Team 

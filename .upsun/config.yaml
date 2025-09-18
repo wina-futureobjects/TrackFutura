@@ -1,0 +1,57 @@
+applications:
+  backend:
+    type: python:3.11
+    source:
+      root: backend
+    build:
+      flavor: none
+    web:
+      commands:
+        start: gunicorn --bind 0.0.0.0:$PORT --workers 3 config.wsgi:application
+      upstream:
+        socket_family: tcp
+        protocol: http
+    variables:
+      DJANGO_SETTINGS_MODULE: config.settings
+      PYTHONPATH: /app/backend
+    mounts:
+      static: /app/backend/staticfiles
+    relationships:
+      database: postgresql:postgresql
+    hooks:
+      build: |
+        pip install -r requirements.txt
+        python manage.py collectstatic --noinput
+      deploy: |
+        python manage.py migrate --noinput
+        python manage.py seed_demo_data
+
+  frontend:
+    type: nodejs:18
+    source:
+      root: frontend
+    build:
+      flavor: none
+    web:
+      commands:
+        start: serve -s dist -l $PORT
+    variables:
+      NODE_ENV: production
+    mounts:
+      static: /app/frontend/dist
+
+services:
+  postgresql:
+    type: postgresql:15
+    disk: 1024
+    configuration:
+      extensions:
+        - uuid-ossp
+        - pg_trgm
+        - unaccent
+
+variables:
+  env:
+    BRIGHTDATA_BASE_URL: https://trackfutura.futureobjects.io
+    BRIGHTDATA_WEBHOOK_TOKEN: your-webhook-secret-token
+    OPENAI_API_KEY: your-openai-api-key
