@@ -38,37 +38,33 @@ except ImportError:
     @permission_classes([AllowAny])
     def emergency_stats(request):
         return JsonResponse({
-            'totalUsers': 1, 'totalOrgs': 1, 'totalProjects': 1, 'totalCompanies': 1,
-            'superAdmins': 1, 'tenantAdmins': 0, 'regularUsers': 0,
-            'status': 'import_fallback'
+            'totalUsers': 0, 'totalOrgs': 0, 'totalProjects': 0, 'totalCompanies': 0,
+            'superAdmins': 0, 'tenantAdmins': 0, 'regularUsers': 0,
+            'status': 'empty_fallback'
         })
 
     @api_view(['GET'])
     @permission_classes([AllowAny])
     def emergency_users(request):
         return JsonResponse({
-            'results': [{'id': 1, 'username': 'admin', 'email': 'admin@trackfutura.com',
-                        'first_name': 'Admin', 'last_name': 'User', 'is_active': True,
-                        'date_joined': '2024-01-01T00:00:00Z', 'role': 'super_admin', 'company': 'Demo Company'}],
-            'count': 1, 'status': 'import_fallback'
+            'results': [],
+            'count': 0, 'status': 'empty_fallback'
         })
 
     @api_view(['GET'])
     @permission_classes([AllowAny])
     def emergency_companies(request):
         return JsonResponse({
-            'results': [{'id': 1, 'name': 'Demo Company', 'description': 'Demo company for client presentation',
-                        'status': 'active', 'created_at': '2024-01-01T00:00:00Z'}],
-            'count': 1, 'status': 'import_fallback'
+            'results': [],
+            'count': 0, 'status': 'empty_fallback'
         })
 
     @api_view(['GET'])
     @permission_classes([AllowAny])
     def emergency_organizations(request):
         return JsonResponse({
-            'results': [{'id': 1, 'name': 'Demo Organization', 'description': 'Demo organization for client presentation',
-                        'created_at': '2024-01-01T00:00:00Z', 'member_count': 1}],
-            'count': 1, 'status': 'import_fallback'
+            'results': [],
+            'count': 0, 'status': 'empty_fallback'
         })
 
 
