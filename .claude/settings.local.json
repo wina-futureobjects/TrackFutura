@@ -316,7 +316,9 @@
       "Bash(upsun environment:list:*)",
       "Bash(upsun.exe environment:logs:*)",
       "Bash(./upsun.exe environment:logs backend)",
-      "Bash(nslookup:*)"
+      "Bash(nslookup:*)",
+      "Bash(git remote remove:*)",
+      "Bash(git remote:*)"
     ],
     "deny": [],
     "ask": []
