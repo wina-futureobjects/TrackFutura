@@ -136,7 +136,10 @@ LOGGING = {
 
 # BrightData configuration for production
 BRIGHTDATA_BASE_URL = os.getenv('BRIGHTDATA_BASE_URL', 'https://trackfutura.futureobjects.io')
-BRIGHTDATA_WEBHOOK_TOKEN = os.getenv('BRIGHTDATA_WEBHOOK_TOKEN', 'your-webhook-secret-token')
+BRIGHTDATA_WEBHOOK_TOKEN = os.getenv('BRIGHTDATA_WEBHOOK_TOKEN', '8af6995e-3baa-4b69-9df7-8d7671e621eb')
+
+# OpenAI configuration
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')
 
 # Email configuration for production
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'

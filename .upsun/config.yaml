@@ -17,6 +17,9 @@ applications:
         PYTHONPATH: /app/backend
         DEBUG: false
         DJANGO_ALLOWED_HOSTS: "*"
+        OPENAI_API_KEY: "${OPENAI_API_KEY}"
+        BRIGHTDATA_WEBHOOK_TOKEN: "8af6995e-3baa-4b69-9df7-8d7671e621eb"
+        BRIGHTDATA_BASE_URL: "https://trackfutura.futureobjects.io"
     relationships:
       database: postgresql:postgresql
     hooks:
@@ -24,8 +27,8 @@ applications:
         pip install -r requirements.txt
         python manage.py collectstatic --noinput --clear
       deploy: |
-        python manage.py migrate --noinput || true
-        python manage.py collectstatic --noinput --clear || true
+        python manage.py migrate --noinput
+        python manage.py collectstatic --noinput --clear
 
   frontend:
     type: nodejs:18
@@ -41,7 +44,7 @@ applications:
         NODE_ENV: production
     hooks:
       build: |
-        npm install
+        npm ci --production=false
         npm install -g serve
         npm run build
 

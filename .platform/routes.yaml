@@ -1,11 +1,17 @@
-"https://trackfutura.futureobjects.io":
+"https://{default}/":
   type: upstream
   upstream: track-futura:http
 
-"https://api.trackfutura.futureobjects.io":
+"https://{default}/api/":
+  type: upstream
+  upstream: track-futura:http
+  cache:
+    enabled: false
+
+"https://{default}/admin/":
   type: upstream
   upstream: track-futura:http
 
-"https://www.trackfutura.futureobjects.io":
-  type: redirect
-  to: "https://trackfutura.futureobjects.io"
+"https://{default}/static/":
+  type: upstream
+  upstream: track-futura:http

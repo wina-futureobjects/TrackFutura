@@ -20,21 +20,26 @@ web:
       passthru: true
     "/api/":
       passthru: true
+    "/admin/":
+      passthru: true
+    "/static/":
+      passthru: true
 
 # Variables
 variables:
   env:
     # Django configuration
-    DJANGO_SETTINGS_MODULE: config.settings
+    DJANGO_SETTINGS_MODULE: config.settings_production
     PYTHONPATH: /app/backend
     DEBUG: false
+    DJANGO_ALLOWED_HOSTS: "*"
 
-    # OpenAI API Key (split to avoid GitHub detection)
-    OPENAI_KEY_PREFIX: "sk-proj-6QolouN1UcikxUEQSyz0hbNdRbifRQE6yKbFEUi6pL2abiO-fXsbUVTzkggXuYMQ7CUxAwhj_1"
-    OPENAI_KEY_SUFFIX: "T3BlbkFJg6Q97PM1NZkUsnHx0pqoShjRJYQeHY2AY7sa7vZ7dgrA2MXRyzIlNRZHfzVpLKwSkWkGsWS1wA"
+    # OpenAI API Key (set this in platform environment variables)
+    OPENAI_API_KEY: "${OPENAI_API_KEY}"
 
     # BrightData configuration
     BRIGHTDATA_WEBHOOK_TOKEN: "8af6995e-3baa-4b69-9df7-8d7671e621eb"
+    BRIGHTDATA_BASE_URL: "https://trackfutura.futureobjects.io"
 
     # Email configuration (optional)
     EMAIL_HOST: "smtp.gmail.com"
@@ -53,12 +58,6 @@ variables:
     WEBHOOK_RESPONSE_TIME_THRESHOLD: "5.0"
     WEBHOOK_ENABLE_CERT_PINNING: "false"
 
-    # Ngrok configuration (for development)
-    NGROK_ENABLED: "false"
-    NGROK_AUTH_TOKEN: ""
-    NGROK_SUBDOMAIN: ""
-    NGROK_REGION: "us"
-
 # Mounts
 mounts:
   static: /app/backend/staticfiles
@@ -70,9 +69,11 @@ relationships:
 # Hooks
 hooks:
   build: |
+    cd /app/backend
     pip install -r requirements.txt
-    python manage.py collectstatic --noinput
+    python manage.py collectstatic --noinput --clear
   deploy: |
+    cd /app/backend
     python manage.py migrate --noinput
 
 # Source directory
