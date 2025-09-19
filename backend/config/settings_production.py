@@ -75,28 +75,26 @@ if os.getenv('PLATFORM_ROUTES'):
     except (json.JSONDecodeError, AttributeError):
         pass
 
-# CSRF settings for production
+# CSRF settings for production - Keep permissive to avoid conflicts
 CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS.copy()
+CSRF_COOKIE_SECURE = False  # Keep permissive for deployment
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SAMESITE = None
 
-# Security headers for production
-SECURE_SSL_REDIRECT = True
+# Security headers for production - Relaxed for deployment
+SECURE_SSL_REDIRECT = False  # Let proxy handle SSL
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-SECURE_HSTS_SECONDS = 31536000  # 1 year
-SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-SECURE_HSTS_PRELOAD = True
-SECURE_CONTENT_TYPE_NOSNIFF = True
-SECURE_BROWSER_XSS_FILTER = True
-SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
+SECURE_HSTS_SECONDS = 0  # Disable HSTS
+SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+SECURE_HSTS_PRELOAD = False
+SECURE_CONTENT_TYPE_NOSNIFF = False
+SECURE_BROWSER_XSS_FILTER = False
+SECURE_REFERRER_POLICY = None
 
-# Session security
-SESSION_COOKIE_SECURE = True
-SESSION_COOKIE_HTTPONLY = True
-SESSION_COOKIE_SAMESITE = 'Lax'
-
-# CSRF security
-CSRF_COOKIE_SECURE = True
-CSRF_COOKIE_HTTPONLY = True
-CSRF_COOKIE_SAMESITE = 'Lax'
+# Session security - Relaxed for deployment
+SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SAMESITE = None
 
 # Logging configuration for production
 LOGGING = {
