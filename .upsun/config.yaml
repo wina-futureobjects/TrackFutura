@@ -13,14 +13,10 @@ applications:
         protocol: http
     variables:
       env:
-        DJANGO_SETTINGS_MODULE: config.settings
+        DJANGO_SETTINGS_MODULE: config.settings_production
         PYTHONPATH: /app/backend
         DEBUG: false
         DJANGO_ALLOWED_HOSTS: "*"
-        # Split OpenAI API Key to avoid GitHub detection
-        OPENAI_KEY_PREFIX: "sk-proj-6QolouN1UcikxUEQSyz0hbNdRbifRQE6yKbFEUi6pL2abiO-fXsbUVTzkggXuYMQ7CUxAwhj_1"
-        OPENAI_KEY_SUFFIX: "T3BlbkFJg6Q97PM1NZkUsnHx0pqoShjRJYQeHY2AY7sa7vZ7dgrA2MXRyzIlNRZHfzVpLKwSkWkGsWS1wA"
-        BRIGHTDATA_WEBHOOK_TOKEN: "8af6995e-3baa-4b69-9df7-8d7671e621eb"
     relationships:
       database: postgresql:postgresql
     hooks:
@@ -28,9 +24,8 @@ applications:
         pip install -r requirements.txt
         python manage.py collectstatic --noinput
       deploy: |
-        python manage.py migrate --noinput || echo "Migration failed, continuing..."
-        python manage.py collectstatic --noinput || echo "Static collection failed, continuing..."
-        python manage.py create_simple_demo || echo "Simple demo creation failed, continuing..."
+        python manage.py migrate --noinput || true
+        python manage.py collectstatic --noinput || true
 
   frontend:
     type: nodejs:18

@@ -313,7 +313,10 @@
       "Bash(where upsun)",
       "Bash(git remote add:*)",
       "Bash(INSTALL_METHOD=raw bash)",
-      "Bash(upsun environment:list:*)"
+      "Bash(upsun environment:list:*)",
+      "Bash(upsun.exe environment:logs:*)",
+      "Bash(./upsun.exe environment:logs backend)",
+      "Bash(nslookup:*)"
     ],
     "deny": [],
     "ask": []
