@@ -251,28 +251,11 @@ CORS_PREFLIGHT_MAX_AGE = 86400
 CORS_EXPOSE_HEADERS = []
 CORS_ALLOW_PRIVATE_NETWORK = True
 
-# 🚨 COMPLETE CSRF BYPASS - NO ORIGIN CHECKING 🚨
+# 🚨 CSRF SETTINGS - COMPLETELY DISABLED 🚨
 CSRF_COOKIE_SECURE = False
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SAMESITE = None
 CSRF_USE_SESSIONS = False
-
-# 🚨 NUCLEAR CSRF DISABLE - OVERRIDE DJANGO CORE 🚨
-
-# Completely disable CSRF at Django's core level
-CSRF_COOKIE_SECURE = False
-CSRF_COOKIE_HTTPONLY = False
-CSRF_COOKIE_SAMESITE = None
-CSRF_USE_SESSIONS = False
-
-# Override Django's CSRF settings to bypass everything
-import django.middleware.csrf
-# Monkey patch Django's CSRF middleware to do nothing
-original_process_view = django.middleware.csrf.CsrfViewMiddleware.process_view
-def dummy_process_view(self, request, callback, callback_args, callback_kwargs):
-    """Dummy CSRF process_view that does nothing"""
-    return None
-django.middleware.csrf.CsrfViewMiddleware.process_view = dummy_process_view
 
 # Trust all origins (Django 4.0+ requires scheme prefixes)
 CSRF_TRUSTED_ORIGINS = [
