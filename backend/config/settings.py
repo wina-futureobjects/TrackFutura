@@ -68,7 +68,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    "users.middleware.CustomCsrfMiddleware",  # 🚨 CSRF BYPASS FIRST - OVERRIDES EVERYTHING
     "corsheaders.middleware.CorsMiddleware",  # CORS second
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",  # Enable whitenoise for Upsun
